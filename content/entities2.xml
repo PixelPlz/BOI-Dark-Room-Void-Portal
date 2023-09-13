@@ -1,0 +1,9 @@
+<entities anm2root="gfx/" version="5" deathanm2="gfx/death_enemies.anm2">
+	<!-- Portal spawner -->
+	<entity name="Void Portal Spawner"   id="200" variant="5111"   anm2path="voidportal.anm2"
+	shutdoors="false" tags="noreroll"
+	friction="1" collisionRadius="15" collisionRadiusYMulti="2" gridCollision="none" collisionMass="100" />
+
+	<!-- Item effect -->
+	<entity name="Void Portal Item Effect"   id="1000" variant="5111"   anm2path="voidportal item.anm2"   friction="1" />
+</entities>
