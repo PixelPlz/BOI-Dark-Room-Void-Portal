@@ -15,9 +15,12 @@ mod.ResetPortalTracker()
 
 
 
--- Load portal tracker
+-- Load portal tracker when continuing a run / reset it when starting a new one
 function mod:LoadPortalTracker(isContinue)
-    if mod:HasData() then
+    if not isContinue then
+        mod.ResetPortalTracker()
+
+    elseif mod:HasData() then
 		mod.PortalTracker = json.decode(mod:LoadData())
     end
 end
@@ -31,7 +34,7 @@ mod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, mod.SavePortalTracker)
 
 
 
--- Reset the portal tracker when entering a new floor / run
+-- Reset the portal tracker when entering a new floor
 function mod:ClearPortalTracker()
 	mod.ResetPortalTracker()
 end

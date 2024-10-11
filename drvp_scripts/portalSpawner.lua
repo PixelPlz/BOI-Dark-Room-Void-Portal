@@ -3,7 +3,10 @@ local mod = DarkRoomVoidPortal
 
 
 function mod:TrySpawnPortal(roomIndex)
-    if mod.PortalTracker.RoomIndex ~= nil and roomIndex == mod.PortalTracker.RoomIndex then
+    local level = Game():GetLevel()
+
+    if level:GetAbsoluteStage() == LevelStage.STAGE6 and level:GetStageType() == StageType.STAGETYPE_ORIGINAL -- Currently in the Dark Room (failsafe if the save data doesn't reset)
+    and mod.PortalTracker.RoomIndex ~= nil and roomIndex == mod.PortalTracker.RoomIndex then -- In the portal room
         local room = Game():GetRoom()
         local gridEntity = room:GetGridEntity(mod.PortalTracker.GridIndex)
 
@@ -14,7 +17,7 @@ function mod:TrySpawnPortal(roomIndex)
         -- Spawn the portal with the saved data
         else
             local spawnPos = room:GetGridPosition(mod.PortalTracker.GridIndex)
-            Isaac.Spawn(mod.PortalType, mod.PortalVariant, 0, spawnPos, Vector.Zero, nil):ToNPC()
+            Isaac.Spawn(mod.PortalType, mod.PortalVariant, 0, spawnPos, Vector.Zero, nil)
         end
     end
 end
@@ -68,7 +71,7 @@ mod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, mod.CheckForPortalSpawnRoom)
 
 -- When you re-enter the run in the portal room after restarting the game (MC_POST_NEW_ROOM is triggered before the data can be loaded)
 function mod:CheckForLateSpawn(isContinue)
-    if isContinue == true then
+    if isContinue then
         local roomIndex = Game():GetLevel():GetCurrentRoomIndex()
         mod:TrySpawnPortal(roomIndex)
     end
